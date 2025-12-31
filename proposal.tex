@@ -1,0 +1,91 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{sectsty}
+\usepackage{enumitem}
+\usepackage{setspace}
+
+\title{Research Proposal:\\
+An Adapted Axiomatic Framework for Effectful Cubical Type Theory via Evidenced Frames}
+\author{Proposer: Jack Widman}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Abstract}
+
+This project investigates how cubical type-theoretic structure can be reconciled with effectful computation in realizability semantics. Specifically, it explores a synthesis of the axiomatic cubical models of Orton and Pitts (2018) with the Evidenced Frames framework for effectful realizability developed by Cohen (2020). The central question is how realizability toposes arising from effectful partial combinatory algebras—such as variants of the Effective Topos—can be equipped with cubical structure supporting Voevodsky’s Univalence Axiom alongside computational effects such as exceptions, state, and logging.
+
+Rather than assuming a straightforward compatibility, the project analyzes how cubical structure interacts with effectful computation, focusing on the interval object, cofibrant propositions, and Kan filling. A guiding objective is to determine how the nine axioms proposed by Orton and Pitts behave in effectful realizability settings, and whether principled reformulations or adaptations are required. The investigation combines semantic analysis with mechanized experimentation in Cubical Agda.
+
+\section{Research Context and Motivation}
+
+Cubical Type Theory reinterprets identity types as paths, providing a computational account of equality and enabling constructive formulations of univalence. Existing cubical models, however, are fundamentally designed for pure computation and do not directly address the presence of computational effects.
+
+In contrast, realizability toposes—most notably the Effective Topos—provide a natural semantic setting for effectful computation. The Evidenced Frames framework provides a principled realizability-based semantics for effects such as exceptions, state, and logging, making it a natural candidate for investigating the interaction between cubical structure and effectful computation.
+
+The tension between these frameworks lies in how cubical structure interacts with partiality, non-termination, and effectful dependence. In particular, it is unclear how effects impact essential cubical features such as Kan filling, cofibrations, strictness, and the algebraic structure of the interval.
+
+As a preliminary experiment, we explored minimal cubical constructions in which effects are introduced \emph{around} paths rather than within the cubical interval itself. This experiment suggests that certain effect-like behaviors can be stratified away from homotopical structure while preserving cubical coherence, and it highlights a boundary beyond which naive internalization of effects threatens core cubical axioms. This observation motivates a systematic investigation of cubical structure in effectful realizability toposes.
+
+\section{Research Objectives}
+
+\begin{enumerate}[label=\arabic*.]
+\item To analyze how realizability toposes arising from effectful partial combinatory algebras, structured via Evidenced Frames, interact with the nine axioms for cubical models proposed by Orton and Pitts, and to identify where principled reformulations may be required in the presence of effects.
+
+\item To study the behavior of cofibrant propositions, Kan filling, and connection structure under effectful realizability, with particular attention to partiality, exceptions, and non-termination.
+
+\item To formalize and test the resulting semantics in Cubical Agda, extending existing libraries with constructions supporting Evidenced Frames, and to validate proposed formulations through mechanized proofs and counterexamples.
+\end{enumerate}
+
+\section{Methodology}
+
+\textbf{Phase One: Internal Language of Effectful Realizability.}  
+We begin by working within the internal logic of realizability toposes arising from Evidenced Frames, making explicit the semantic structure relevant to cubical interpretation. This includes analysis of the subobject classifier, Heyting algebra structure, and the interpretation of dependent types, isolating the assumptions necessary to support effectful computation prior to introducing cubical structure.
+
+\medskip
+
+\textbf{Phase Two: Cubical Structure and the Interval Object.}  
+We investigate the interpretation of the cubical interval object within effectful realizability toposes. Two complementary approaches are explored:
+\begin{itemize}
+\item an \emph{effect-free interval}, in which cubical structure remains pure and effects are introduced only at the level of realizers or eliminators;
+\item a more speculative \emph{effectful or monadic interpretation of paths}, in which homotopies may depend on effectful computation.
+\end{itemize}
+Preliminary experiments in Cubical Agda suggest that the former approach preserves Kan filling and connection structure, while the latter introduces significant coherence challenges. This phase aims to make these boundaries precise.
+
+\medskip
+
+\textbf{Phase Three: Kan Filling, Strictness, and Glueing.}  
+The final phase focuses on the most delicate axioms of Orton and Pitts, particularly strictness and glueing. We analyze how the lifting mechanisms provided by Evidenced Frames interact with these axioms, and whether alternative but equivalent formulations are required in an effectful setting. Throughout, we seek semantic criteria distinguishing effects compatible with cubical structure from those that fundamentally obstruct it.
+
+\section{Potential Impact}
+
+This work aims to clarify the semantic relationship between cubical type theory and effectful computation within realizability-based models. A successful outcome would extend cubical methods to effectful settings while preserving univalence, and would deepen our understanding of the limits of homotopy-theoretic reasoning in partial and effectful computational environments. More broadly, the project contributes to the development of constructive foundations and the semantic underpinnings of effectful formal verification.
+
+\section{Key References}
+
+\begin{itemize}
+\item Ian Orton and Andrew Pitts (2018). \emph{Axioms for Modelling Cubical Type Theory in a Topos}.
+\item Liron Cohen (2020). \emph{Evidenced Frames and Effectful Realizability}. Proceedings of LICS 2020.
+\item Benno van den Berg (2018). \emph{The Effective Topos as a Model for Cubical Type Theory}.
+\end{itemize}
+
+\appendix
+
+\section{Preliminary Cubical Agda Experiment}
+
+As a preliminary investigation into the interaction between cubical structure and computational effects, we developed a small experimental formalization in Cubical Agda (informally referred to as \texttt{EffectfulPath.agda}). The purpose of this experiment was to probe a specific boundary question:
+
+\begin{quote}
+Can effect-like behavior be introduced \emph{around} cubical paths without violating core cubical principles such as Kan filling and strictness?
+\end{quote}
+
+The guiding design choice was to preserve the purity of the cubical interval object and Kan operations, while allowing effects to appear only at the level of path witnesses or their interpretation. In particular, the interval, endpoint inclusions, and Kan composition operations were taken directly from Cubical Agda’s standard library, and effects were introduced externally via wrappers on paths rather than within the cubical structure itself.
+
+This experiment led to the following qualitative observations. When effects were confined to realizers or eliminators, basic cubical operations such as path composition and symmetry remained definitionally well-behaved, and Kan filling continued to type-check and reduce as expected. In contrast, attempts to internalize effects directly into path structure resulted in failures of strictness, with definitional equalities such as transport along reflexivity no longer holding judgmentally. Preliminary experiments also suggested that glueing constructions are particularly sensitive to effectful dependence, exhibiting coherence difficulties under restriction.
+
+These observations are intended as preliminary evidence clarifying where cubical structure is robust and where additional semantic care is required. The proposed research aims to replace this schematic experiment with a systematic semantic analysis of cubical structure in effectful realizability settings.
+
+\end{document}
